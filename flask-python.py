@@ -5,6 +5,7 @@ import subprocess
 import socket
 import pyping
 import time
+wifi = 'wlan0'
 app = Flask(__name__)
 
 def vpn_status():
@@ -27,7 +28,7 @@ def wificonnect():
       password = request.form['password']
     except:
       password = None
-    cells = Cell.all('wlan1')
+    cells = Cell.all(wifi)
     counter = 0
     end = counter
     for cell in cells:
@@ -35,7 +36,7 @@ def wificonnect():
         end = counter
       counter += 1
     return_text = "{} has {} as a password and is index number {}<br>{}".format(ssid, password, end,cells[end])
-    scheme = Scheme.for_cell('wlan1',ssid,cells[end],password)
+    scheme = Scheme.for_cell(wifi,ssid,cells[end],password)
     try:
       scheme.save()
       return_text += "<br>Configuration saved"
@@ -44,7 +45,7 @@ def wificonnect():
       scheme.save()
       return_text += "<br>Removed previous configuration"
     return return_text
-  cells = Cell.all('wlan1')
+  cells = Cell.all(wifi)
   cells.sort(key=lambda x: x.signal, reverse=True)
   return render_template('wifi.html', cells=cells)
 
@@ -70,7 +71,7 @@ def listaps():
 
 @app.route('/activate/<ssid>')
 def activate_ssid(ssid):
-  scheme = Scheme.find('wlan1',ssid)
+  scheme = Scheme.find(wifi,ssid)
   try:
     scheme.activate()
   except:
