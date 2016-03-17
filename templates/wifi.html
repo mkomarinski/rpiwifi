@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Connect{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+  <form action="/connect" method="post">
+    <select name="ssid">
+    {% for item in cells %}
+        <option value="{{ item.ssid }}">{{ item.ssid }} - {{ item.quality }}</option>
+    {% endfor %}
+    </select>
+    <br>
+    Password: <input type="text" name="password" value="" />
+    <input type="submit" value="Submit"/>
+  </form>
+{% endblock %}

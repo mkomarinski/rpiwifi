@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Wifi list{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <select>
+    {% for item in schemes %}
+        <option value="{{ item.name }}">{{ item.name }}</option>
+    {% endfor %}
+    </select>
+{% endblock %}
